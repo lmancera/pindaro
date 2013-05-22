@@ -1,0 +1,13 @@
+[0m[[0minfo[0m] [0m[32mSigmoidSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mSigmoid [0m[0m
+[0m[[0minfo[0m] [0m[32m- should return 0.5 when applied to a 0[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return positive and > 0.5 when applied to a positive number[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return postive and < 0.5 when applied to a negative number[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return 1 when applied to a very large number[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return 0 when applied to a very large negative number[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return .5 vector when applied to a zero vector[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return .5 matrix when applied to a zero matrix[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return positive and > 0.5 when applied to positive vector elements[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return positive and < 0.5 when applied to negative vector elements[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return 1 when applied to large positive vector elements[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return 0 when applied to large negative vector elements[0m[0m

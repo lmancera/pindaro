@@ -1,0 +1,6 @@
+[0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.functions.LrCostFunctionSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.functions.SigmoidSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0minfo[0m] [0mPassed: : Total 15, Failed 0, Errors 0, Passed 15, Skipped 0[0m
+[0m[[0mdebug[0m] [0mPassed tests:[0m
+[0m[[0mdebug[0m] [0m	com.iactive.pindaro.functions.LrCostFunctionSpec[0m
+[0m[[0mdebug[0m] [0m	com.iactive.pindaro.functions.SigmoidSpec[0m
