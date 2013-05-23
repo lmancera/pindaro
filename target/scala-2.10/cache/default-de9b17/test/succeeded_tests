@@ -1,8 +1,0 @@
-#Successful Tests
-#Thu May 23 18:20:16 CEST 2013
-com.iactive.pindaro.utils.BreezeFacadeSpec=1369326016163
-com.iactive.pindaro.functions.SigmoidSpec=1369326016888
-com.iactive.pindaro.classification.OneVsAllSpec=1369326016767
-com.iactive.pindaro.optimize.GradientDescentSpec=1369326016873
-com.iactive.pindaro.classification.HandWritingRecognitionRunSpec=1369326016441
-com.iactive.pindaro.parsers.DataFileParserSpec=1369326016841

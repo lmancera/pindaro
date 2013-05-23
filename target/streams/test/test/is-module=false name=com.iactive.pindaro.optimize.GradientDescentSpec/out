@@ -1,4 +1,0 @@
-[0m[[0minfo[0m] [0m[32mGradientDescentSpec:[0m[0m
-[0m[[0minfo[0m] [0m[32mGradientDescentSpec [0m[0m
-[0m[[0minfo[0m] [0m[32m- should decrease cost at each iteration[0m[0m
-[0m[[0minfo[0m] [0m[32m- should minimize a toy example[0m[0m
