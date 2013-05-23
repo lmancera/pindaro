@@ -7,7 +7,7 @@
 		revision="0.1-SNAPSHOT"
 		conf="test-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom"
-		date="20130522122527"/>
+		date="20130523125545"/>
 	<dependencies>
 		<module organisation="org.scalatest" name="scalatest_2.10">
 			<revision name="1.9.1" status="release" pubdate="20121222135935" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="24">

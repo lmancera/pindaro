@@ -1,0 +1,6 @@
+[0m[[0minfo[0m] [0m[32mBreezeFacadeSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mBreezeFacadeSpec [0m[0m
+[0m[[0minfo[0m] [0m[32m- should adjust contrast[0m[0m
+[0m[[0minfo[0m] [0m[32m- should reshape a vector[0m[0m
+[0m[[0minfo[0m] [0m[32m- should perform logical comparison of a vector and a scalar[0m[0m
+[0m[[0minfo[0m] [0m[32m- should flatten a matrix[0m[0m

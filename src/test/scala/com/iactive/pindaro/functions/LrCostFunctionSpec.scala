@@ -21,6 +21,10 @@ import org.scalatest._
 
 import breeze.linalg._
 
+import com.iactive.pindaro.utils._
+
+import scala.util.Random
+
 /**
  * @author lmancera
  */
@@ -59,5 +63,17 @@ class LrCostFunctionSpec extends FlatSpec {
         grad foreach { x => assert(x == -0.047425873177566635)}
     }
 
+    // FIXME: This test is not passing: cost function is sometimes neg!!!
+    it should "never be negative" in {
+        for (i <- 0 to 100){
+            val X = DenseMatrix.rand(6,6)
+            val y = DenseVector.zeros[Double](6)
+            y(Random.nextInt(4)) = 1.0
+            val theta = BreezeFacade flatten DenseMatrix.rand(2,3)
+            val lambda = Random.nextDouble * 10
+            val eval = LrCostFunction(X,y,theta,lambda).eval
+            assert(eval >= 0, "Eval is: " + eval)
+        }
+    }
 
 }

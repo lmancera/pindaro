@@ -1,6 +1,18 @@
-[0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.functions.LrCostFunctionSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.parsers.DataFileParserSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.utils.BreezeFacadeSpec : subclass(false, org.scalatest.Suite) with arguments [0m
 [0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.functions.SigmoidSpec : subclass(false, org.scalatest.Suite) with arguments [0m
-[0m[[0minfo[0m] [0mPassed: : Total 15, Failed 0, Errors 0, Passed 15, Skipped 0[0m
+[0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.optimize.GradientDescentSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.classification.OneVsAllSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.classification.HandWritingRecognitionRunSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[0mdebug[0m] [0mRunning Test com.iactive.pindaro.functions.LrCostFunctionSpec : subclass(false, org.scalatest.Suite) with arguments [0m
+[0m[[31merror[0m] [0mFailed: : Total 27, Failed 1, Errors 0, Passed 26, Skipped 0[0m
 [0m[[0mdebug[0m] [0mPassed tests:[0m
-[0m[[0mdebug[0m] [0m	com.iactive.pindaro.functions.LrCostFunctionSpec[0m
 [0m[[0mdebug[0m] [0m	com.iactive.pindaro.functions.SigmoidSpec[0m
+[0m[[0mdebug[0m] [0m	com.iactive.pindaro.classification.HandWritingRecognitionRunSpec[0m
+[0m[[0mdebug[0m] [0m	com.iactive.pindaro.parsers.DataFileParserSpec[0m
+[0m[[0mdebug[0m] [0m	com.iactive.pindaro.classification.OneVsAllSpec[0m
+[0m[[0mdebug[0m] [0m	com.iactive.pindaro.optimize.GradientDescentSpec[0m
+[0m[[0mdebug[0m] [0m	com.iactive.pindaro.utils.BreezeFacadeSpec[0m
+[0m[[31merror[0m] [0mFailed tests:[0m
+[0m[[31merror[0m] [0m	com.iactive.pindaro.functions.LrCostFunctionSpec[0m
+[0m[[31merror[0m] [0m(test:[31mtest[0m) sbt.TestsFailedException: Tests unsuccessful[0m
