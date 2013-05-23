@@ -5,4 +5,4 @@
 [0m[[0minfo[0m] [0m[32m- should return 0 when finding gradient at 0s[0m[0m
 [0m[[0minfo[0m] [0m[32m- should return -0.047425873177566635 when finding gradient at 1s[0m[0m
 [0m[[0minfo[0m] [0m[31m- should never be negative *** FAILED ***[0m[0m
-[0m[[0minfo[0m] [0m[31m  Eval is: -0.10322814240101326 (LrCostFunctionSpec.scala:74)[0m[0m
+[0m[[0minfo[0m] [0m[31m  Eval is: -0.09895242657193289 (LrCostFunctionSpec.scala:75)[0m[0m

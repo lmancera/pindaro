@@ -1525,7 +1525,7 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] bouncycastle#bcprov-jdk14;138!bcprov-jdk14.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scalatest#scalatest_2.10;1.9.1!scalatest_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-actors;2.10.0!scala-actors.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 2285ms :: artifacts dl 92ms[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 2729ms :: artifacts dl 66ms[0m
 [0m[[0mdebug[0m] [0m	report for default#default-de9b17_2.10;0.1-SNAPSHOT compile produced in /home/lmancera/workspace/scala/pindaro/target/resolution-cache/reports/default-default-de9b17_2.10-compile.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#default-de9b17_2.10;0.1-SNAPSHOT runtime produced in /home/lmancera/workspace/scala/pindaro/target/resolution-cache/reports/default-default-de9b17_2.10-runtime.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#default-de9b17_2.10;0.1-SNAPSHOT test produced in /home/lmancera/workspace/scala/pindaro/target/resolution-cache/reports/default-default-de9b17_2.10-test.xml[0m
@@ -1538,5 +1538,5 @@
 [0m[[0mdebug[0m] [0m	report for default#default-de9b17_2.10;0.1-SNAPSHOT sources produced in /home/lmancera/workspace/scala/pindaro/target/resolution-cache/reports/default-default-de9b17_2.10-sources.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#default-de9b17_2.10;0.1-SNAPSHOT docs produced in /home/lmancera/workspace/scala/pindaro/target/resolution-cache/reports/default-default-de9b17_2.10-docs.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#default-de9b17_2.10;0.1-SNAPSHOT pom produced in /home/lmancera/workspace/scala/pindaro/target/resolution-cache/reports/default-default-de9b17_2.10-pom.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (2285ms resolve - 92ms download)[0m
+[0m[[0mdebug[0m] [0m	resolve done (2729ms resolve - 66ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m
