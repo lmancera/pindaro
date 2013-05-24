@@ -33,6 +33,13 @@ class BreezeFacadeSpec extends FlatSpec {
         assert(ajustedVector.max === 255.0)
 	}
 
+    it should "adjustMatrixContrast" in {
+        val randMatrix = DenseMatrix.rand(200,200)
+        val adjustedMatrix = BreezeFacade adjustMatrixContrast randMatrix
+        assert(adjustedMatrix.min === 0.0)
+        assert(adjustedMatrix.max === 255.0)
+    }
+
     it should "reshape a vector" in {
         val m = 400
         val n = sqrt(m).toInt
@@ -60,10 +67,9 @@ class BreezeFacadeSpec extends FlatSpec {
         assert(vector.length === 25)
     }
 
-    /* Commented because there is no way to close the figure
     it should "plot a figure" in {
         val n = 20
-        BreezeFacade.plot(DenseMatrix.rand(n,n))
+        BreezeFacade plot (BreezeFacade adjustMatrixContrast DenseMatrix.rand(n,n))
         assert(true === true)
     }
 
@@ -71,6 +77,41 @@ class BreezeFacadeSpec extends FlatSpec {
         val n = 25
         BreezeFacade.plotAt(DenseMatrix.rand(n,n),1)
         assert(true === true)
-    }*/
+    }
+
+    it should "be able to build a zero vector" in {
+        val n = 10
+        val zeros = BreezeFacade zeroVector n
+        for (i <- 0 to n-1)
+            assert(zeros(i) === 0.0)
+    }
+
+    it should "perform product by scalar" in {
+        val m = 2
+        val n = 2
+        val ones = DenseMatrix.ones[Double](m,n)
+        val twos = BreezeFacade prod (ones,2.0)
+        for (i <- 0 to twos.rows-1)
+            for (j <- 0 to twos.cols-1)
+                assert(twos(i,j) === 2.0)
+    }
+
+    it should "perform addition to scalar" in {
+        val m = 2
+        val n = 2
+        val ones = DenseMatrix.ones[Double](m,n)
+        val threes = BreezeFacade add (ones,2.0)
+        for (i <- 0 to threes.rows-1)
+            for (j <- 0 to threes.cols-1)
+                assert(threes(i,j) === 3.0)
+    }
+
+    it should "perform difference between vectors" in {
+        val v1 = DenseVector(1.0,5.0)
+        val v2 = DenseVector(4.0,2.0)
+        val v3 = BreezeFacade minus (v1,v2)
+        assert(v3(0) === -3.0)
+        assert(v3(1) === 3.0)
+    }
 
 }

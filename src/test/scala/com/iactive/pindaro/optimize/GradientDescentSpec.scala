@@ -28,7 +28,7 @@ import com.iactive.pindaro.utils._
  * @author lmancera
  */
 class GradientDescentSpec extends FlatSpec {
-	"GradientDescentSpec" should "decrease cost at each iteration" in {
+	"GradientDescent" should "decrease cost at each iteration" in {
         val m = 10
         val n = 5
         val X = DenseMatrix.rand(m,n)
@@ -55,6 +55,10 @@ class GradientDescentSpec extends FlatSpec {
     }
 
     it should "minimize a toy example" in {
+        assert(true == true)
+    }
+
+    "GradientDescentNoReg" should "this is tested in the example run" in {
         assert(true == true)
     }
 

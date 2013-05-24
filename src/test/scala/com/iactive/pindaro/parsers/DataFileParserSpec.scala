@@ -26,10 +26,10 @@ import java.io._
  */
 class DataFileParserSpec extends FlatSpec {
 
-	def testFilePath = "test"
+	def testFilePath = "test.txt"
 	def separator = ' '
-	def contentArray = Array('1', separator, '3', '\n', '2', separator, '4')
-	def contentVector = Array('1', separator, '2', separator, '3', separator, '4')
+	def contentArray = Array('1', separator, '2', separator, '3', '\n', '4', separator, '5', separator, '6', separator, '\n')
+	def contentVector = Array('1', separator, '2', separator, '3', separator, '4', separator, '\n')
 
     "DataFileParserSpec" should "load from file a matrix" in {
     	writeTestArray
@@ -57,10 +57,12 @@ class DataFileParserSpec extends FlatSpec {
 
     def checkMatrixAssertions = {
 		val matrix = DataFileParser(testFilePath,separator).toDenseMatrix
-        assert(matrix(0,0) === 1.0)
-        assert(matrix(0,1) === 2.0)
-        assert(matrix(1,0) === 3.0)
-        assert(matrix(1,1) === 4.0)
+        assert(matrix(0,0) === 1.0, matrix(0,0))
+        assert(matrix(0,1) === 2.0, matrix(0,1))
+        assert(matrix(0,2) === 3.0, matrix(0,2))
+        assert(matrix(1,0) === 4.0, matrix(1,0))
+        assert(matrix(1,1) === 5.0, matrix(1,1))
+        assert(matrix(1,2) === 6.0, matrix(1,2))
     }
 
     def checkVectorAssertions = {

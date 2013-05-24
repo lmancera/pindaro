@@ -43,7 +43,7 @@ import com.iactive.pindaro.utils._
  		val m = X.rows
  		val n = X.cols
  		var allTheta = DenseMatrix.zeros[Double](1,n)
-		for(c <- 1 to numLabels){
+		for(c <- 0 to numLabels-1){
 			val l = BreezeFacade whereIsEqual (y,c)
 			val theta = GradientDescent(X, l, initTheta, lambda, alpha, iterations).execute
 			if (c==1) allTheta = theta

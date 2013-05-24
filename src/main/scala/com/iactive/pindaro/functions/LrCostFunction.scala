@@ -22,14 +22,14 @@ import breeze.numerics._
 /**
  * @author lmancera
  */
- case class LrCostFunction(X:DenseMatrix[Double],y:DenseVector[Double],theta:DenseVector[Double],lambda:Double){
+case class LrCostFunction(X:DenseMatrix[Double],y:DenseVector[Double],theta:DenseVector[Double],lambda:Double){
 
  	def eval: Double = {
  		val m = y.length
  		val h_theta = Sigmoid applyToVector X*theta
  		val regterm = theta(2,theta.length-1).toDenseVector map {x => scala.math.pow(x,2)}
  		val onesvec = DenseVector.ones[Double](y.length)
- 		val fidterm = -y.t*log(h_theta) - (onesvec - y).t*(onesvec - h_theta)
+ 		val fidterm = -y.t*log(h_theta) - (onesvec - y).t*log(onesvec - h_theta)
  		val cost = (1/m.toDouble) * (sum(fidterm) + (lambda/2)*sum(regterm))
  		cost
  	}
@@ -44,4 +44,4 @@ import breeze.numerics._
  		grad(1) = noregterm(1)
  		grad
  	}
- }
+}

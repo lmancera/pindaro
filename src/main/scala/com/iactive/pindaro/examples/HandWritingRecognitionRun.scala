@@ -35,8 +35,18 @@ object HandWritingRecognitionRun {
     * 20x20 input images of handwritten digits
     * 10 labels, from 1 to 10 (output 10 means 0)
     */
-    def main(args: Array[String]) {
-        val numLabels = 10
+    //def main(args: Array[String]) {
+        /*val numLabels = 2
+        val X = DenseMatrix((0.,0.),(0.,1.),(1.,1.),(1.,0.),(0.5,0.25),(10.,10.),(11.,10.),(10.,11.),(11.,11.),(10.5,10.25))
+        val y = DenseVector(0.,0.,0.,0.,0.,1.,1.,1.,1.,1.)
+        val theta = OneVsAll(X,y,numLabels).train
+        var newInput = DenseVector(0.75,0.5)
+        def predicted(v:DenseVector[Double]) = (Sigmoid applyToVector v).argmax
+        println(predicted(theta*newInput))
+        newInput = DenseVector(10.75,10.5)
+        println(predicted(theta*newInput))*/
+
+/*        val numLabels = 10
         val separator = ' '
 
         println("Loading Data...")
@@ -53,15 +63,15 @@ object HandWritingRecognitionRun {
         println("\t Number of results should be " + numSamplesInTrainingSet + " and it is: " + y.length)
 
         println("Visualizing Data... (skipped)")
-        //BreezeFacade.plotAt(X,100)
-
+        BreezeFacade.plotAt(X,1)
+        
         println("One-vs-All Logistic Regression...")
 
         println("\t Training...")
         val allTheta = OneVsAll(X,y,numLabels).train
 
-        //println("\t Showing results...")
-        //println("\t \t parameters learned: " + allTheta)
+        println("\t Showing results...")
+        println("\t \t parameters learned: " + allTheta(0,0 to 4))
 
         println("Making predictions...")
         val predictionMatrix = Sigmoid applyToMatrix X*allTheta.t
@@ -70,8 +80,9 @@ object HandWritingRecognitionRun {
             val predictionVector = predictionMatrix(i,::).toDenseVector
             if (y(i).toInt == predictionVector.argmax) hits += 1
         }
-        val ratioOfSuccess: Double = hits.toDouble/numSamplesInTrainingSet.toDouble
-        println("\t The ratio of success is: " + ratioOfSuccess + " having " + hits + " hits")
-    }
+        val ratioOfSuccess: Double = 100*hits.toDouble/numSamplesInTrainingSet.toDouble
+        println("\t The ratio of success is: " + ratioOfSuccess + "% having " + hits + " hits")
+*/        
+    //}
 
 }

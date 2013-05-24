@@ -18,6 +18,8 @@ package com.iactive.pindaro.parsers
 import breeze.linalg._
 import scala.io.Source
 
+import com.iactive.pindaro.utils._
+
 /**
  * @author lmancera
  */
@@ -28,9 +30,12 @@ import scala.io.Source
  	}
 
  	def toDenseMatrix: DenseMatrix[Double] = {
-		val lines = scala.io.Source.fromFile(path).getLines.size
-		var inputArray = scala.io.Source.fromFile(path).getLines.toArray.flatMap(_.split(separator)).map(_.toDouble)
-		new DenseMatrix(lines, inputArray)
+		val rows = scala.io.Source.fromFile(path).getLines.size
+		var flattenDoubles = scala.io.Source.fromFile(path).getLines.toArray.flatMap(_.split(separator)).map(_.toDouble)
+		BreezeFacade fromFlatArray (rows,flattenDoubles)
+		// HEADS UP! NEXT LINE IS SUPPOSED TO CONVERT FROM ARRAY TO DENSEMATRIX
+		// BUT IT OUTPUTS A WEIRD RESULT
+		//new DenseMatrix(rows, flattenDoubles)
  	}
 
  }

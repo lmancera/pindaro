@@ -36,12 +36,24 @@ import breeze.numerics._
     }
 
     def plot(matrix:DenseMatrix[Double]): Unit = {
-        figure.subplot(0) += image(matrix)
+        // FIXME: Delete this commented lines. They are just for testing visualization
+        /*var newmatrix = bytwo(matrix)
+        for (i <- 1 to newmatrix.rows-1)
+            for (j <- 1 to newmatrix.cols-1)
+                if (newmatrix(i,j) > 255)
+                    newmatrix(i,j) = 255
+        */
+        // newmatrix below if uncommented
+        figure.subplot(0) += image(matrix, GradientPaintScale(matrix.min,matrix.max,PaintScale.BlackToWhite))
     }
 
     def adjustContrast(vector:DenseVector[Double]):DenseVector[Double] = {
         var otherVector = vector - vector.min
         (otherVector/otherVector.max)*255.0
+    }
+
+    def adjustMatrixContrast(matrix:DenseMatrix[Double]):DenseMatrix[Double] = {
+        reshape(adjustContrast(flatten(matrix)),matrix.rows,matrix.cols)
     }
 
     def reshape(vector:DenseVector[Double],rows:Integer,cols:Integer):DenseMatrix[Double] = {
@@ -69,5 +81,32 @@ import breeze.numerics._
     def flatten(matrix:DenseMatrix[Double]):DenseVector[Double] = {
         DenseVector(matrix.copy.data)
     }
+
+    def fromFlatArray(rows:Integer,flat:Array[Double]):DenseMatrix[Double] = {
+        val cols = (flat.length/rows).toInt       
+        val A = DenseMatrix.zeros[Double](rows, cols)
+        var k = 0
+        for (i <- 0 to rows-1) {
+            for (j <- 0 to cols-1) {
+                A(i,j) = flat(k)
+                k += 1
+            }
+        }
+        A
+    }
+
+    def minus(x:DenseVector[Double],y:DenseVector[Double]):DenseVector[Double] = {
+        var z = DenseVector.zeros[Double](x.length)
+        for (i <- 0 to x.length-1) z(i) = x(i) - y(i)
+        z
+    }
+
+    def pow2(v:DenseVector[Double]): DenseVector[Double] = v map {x => scala.math.pow(x,2)}    
+
+    def zeroVector(n:Int) = DenseVector.zeros[Double](n)
+
+    def prod(v: DenseMatrix[Double], s:Double) = v map {x => x * s}
+
+    def add(v: DenseMatrix[Double], s:Double) = v map {x => x + s}
 
  }

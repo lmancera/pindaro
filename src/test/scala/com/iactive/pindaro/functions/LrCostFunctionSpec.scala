@@ -29,12 +29,13 @@ import scala.util.Random
  * @author lmancera
  */
 class LrCostFunctionSpec extends FlatSpec {
-	"LrCostFunctionSpec" should "return -.5 when evaluated at 0s" in {
+	"LrCostFunctionSpec" should "return 0.69315 when evaluated at 0s" in {
         val X = DenseMatrix.zeros[Double](5,3)
         val y = DenseVector.zeros[Double](5)
         val theta = DenseVector.zeros[Double](3)
         val lambda = 0
-		assert(LrCostFunction(X,y,theta,lambda).eval == -0.5)
+        def eval = LrCostFunction(X,y,theta,lambda).eval
+		assert(scala.math.abs(eval-0.69315) < 0.0001, eval)
 	}
 
     it should "return 0.049 when evaluated at 1s" in {
@@ -63,7 +64,6 @@ class LrCostFunctionSpec extends FlatSpec {
         grad foreach { x => assert(x == -0.047425873177566635)}
     }
 
-    // FIXME: This test is not passing: cost function is sometimes neg!!!
     it should "never be negative" in {
         for (i <- 0 to 100){
             val X = DenseMatrix.rand(6,6)
