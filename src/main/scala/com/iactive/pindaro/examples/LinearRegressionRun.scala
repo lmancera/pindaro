@@ -43,7 +43,10 @@ object LinearRegressionRun {
 
     def getTrainResult(data:DenseMatrix[Double]) = data(::,data.cols-1).toDenseVector
 
-    def addColumnOfOnes(x:DenseVector[Double],rows:Int) = DenseMatrix.horzcat(DenseMatrix.ones[Double](rows,1),BreezeFacade reshape (x,rows,1))
+    def addColumnOfOnes(x:DenseVector[Double],rows:Int) = {
+        val decoratedx = new DenseVectorDecorator(x)
+        DenseMatrix.horzcat(DenseMatrix.ones[Double](rows,1),decoratedx reshape (rows,1))
+    }
 
     def main(args: Array[String]) {
 
@@ -63,7 +66,7 @@ object LinearRegressionRun {
         val X = addColumnOfOnes(x,numSamples)
         println("\t Size of X: " + X.rows + " rows, " + X.cols + " cols")
         println("\t First element of X: (" + X(0,0) + ", " + X(0,1) + ")")
-        var theta = BreezeFacade zeroVector X.cols
+        var theta = BreezeBuilder zeroVector X.cols
         println("\t Init theta: (" + theta(0) + ", " + theta(1) + ")")
         var cost = GradientDescentNoReg(X, y).computeCost(theta)
         println("\t Initial cost: " + cost)

@@ -59,7 +59,9 @@ case class  GradientDescentNoReg(X:DenseMatrix[Double], y:DenseVector[Double], i
 
 	def computeCost(theta:DenseVector[Double]): Double = {
 		val m = y.length
-		1.toDouble/(2*m)*sum( BreezeFacade pow2 ( BreezeFacade minus (X*theta,y) ) )
+		val decoratedxtheta = new DenseVectorDecorator(X*theta)
+		val decoratedy = new DenseVectorDecorator(y)
+		1.toDouble/(2*m)*sum((decoratedxtheta - decoratedy)^2)
 	}
 
 }

@@ -42,7 +42,7 @@ class GradientDescentSpec extends FlatSpec {
         var lastEval = 0.0
         for (iterations <- 1 to 100){
             val theta = GradientDescent(X,l,initTheta,lambda,alpha,iterations).execute
-            val f = LrCostFunction(X,l,BreezeFacade flatten theta,lambda)
+            val f = LrCostFunction(X,l,DenseMatrixDecorator(theta).flatten, lambda)
             if (iterations == 1) lastEval = f.eval
             else {
                 val newEval = f.eval
@@ -58,7 +58,7 @@ class GradientDescentSpec extends FlatSpec {
         assert(true == true)
     }
 
-    "GradientDescentNoReg" should "this is tested in the example run" in {
+    "GradientDescentNoReg" should "foo test: this is tested in LinearRegressionRunSpec" in {
         assert(true == true)
     }
 

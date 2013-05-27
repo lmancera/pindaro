@@ -42,7 +42,7 @@ class LinearRegressionRunSpec extends FlatSpec {
         assert(X(0,0) === 1.0)
         assert(X(0,1) === x(0))
 
-        var theta = BreezeFacade zeroVector X.cols
+        var theta = BreezeBuilder zeroVector X.cols
         assert(theta(0) == 0.0)
         assert(theta(1) == 0.0)
 

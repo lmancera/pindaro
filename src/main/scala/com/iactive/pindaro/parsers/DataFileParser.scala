@@ -32,7 +32,7 @@ import com.iactive.pindaro.utils._
  	def toDenseMatrix: DenseMatrix[Double] = {
 		val rows = scala.io.Source.fromFile(path).getLines.size
 		var flattenDoubles = scala.io.Source.fromFile(path).getLines.toArray.flatMap(_.split(separator)).map(_.toDouble)
-		BreezeFacade fromFlatArray (rows,flattenDoubles)
+		DenseMatrixDecorator fromFlatArray (rows,flattenDoubles)
 		// HEADS UP! NEXT LINE IS SUPPOSED TO CONVERT FROM ARRAY TO DENSEMATRIX
 		// BUT IT OUTPUTS A WEIRD RESULT
 		//new DenseMatrix(rows, flattenDoubles)

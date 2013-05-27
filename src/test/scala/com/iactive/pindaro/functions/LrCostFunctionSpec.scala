@@ -69,7 +69,7 @@ class LrCostFunctionSpec extends FlatSpec {
             val X = DenseMatrix.rand(6,6)
             val y = DenseVector.zeros[Double](6)
             y(Random.nextInt(4)) = 1.0
-            val theta = BreezeFacade flatten DenseMatrix.rand(2,3)
+            val theta = DenseMatrixDecorator(DenseMatrix.rand(2,3)).flatten
             val lambda = Random.nextDouble * 10
             val eval = LrCostFunction(X,y,theta,lambda).eval
             assert(eval >= 0, "Eval is: " + eval)
