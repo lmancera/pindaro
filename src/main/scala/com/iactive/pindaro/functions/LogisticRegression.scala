@@ -19,6 +19,7 @@ package com.iactive.pindaro.functions
 import breeze.linalg._
 import breeze.numerics._
 
+import com.iactive.pindaro.math._
 import com.iactive.pindaro.utils._
 
 /**
@@ -27,12 +28,24 @@ import com.iactive.pindaro.utils._
 
 class LogisticRegression(X:DenseMatrix[Double], y:DenseVector[Double]){
 
+	val m = y.length
+
+	val decoratedy = new DenseVectorDecorator(y)
+
+	def h(theta:DenseVector[Double]): DenseVector[Double] = {
+		sigmoid(X*theta)
+	}
+
 	def eval(theta:DenseVector[Double]): Double = {
-		0.0
+		val decoratedhtheta = new DenseVectorDecorator(h(theta))
+		sum(-y.t*log(h(theta)) - (decoratedy.substractFrom(1).t*log(decoratedhtheta.substractFrom(1))))/m
 	}
 
 	def grad(theta:DenseVector[Double]): DenseVector[Double] = {
-		BreezeBuilder zeroVector (theta.length)
+		val decoratedhtheta = new DenseVectorDecorator(h(theta))
+		((decoratedhtheta-decoratedy).t*X).t.toDenseVector * (1./m)
+		/*grad = invm*((h_theta-y)'*X)'
+		BreezeBuilder zeroVector (theta.length)*/
 	}
 }
 

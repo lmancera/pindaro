@@ -149,4 +149,24 @@ class DenseVectorDecoratorSpec extends FlatSpec {
         assert(decorated.slice(2.0) === DenseVector(1,0,-1,0,1,0,0))
     }
 
+    it should "substract a vector from a scalar" in {
+        val scalar = 1
+        val vector = DenseVector(-1,0,0.25,0.5,0.75,1)
+        val decorated = new DenseVectorDecorator(vector)
+        val output = decorated.substractFrom(scalar)
+        assert(output(0) === 2)
+        assert(output(1) === 1)
+        assert(output(2) === 0.75)
+        assert(output(3) === 0.5)
+        assert(output(4) === 0.25)
+        assert(output(5) === 0)
+    }
+
+    it should "calculate the transpose of a vector" in {
+        val vector = DenseVector(-1,0,0.25)
+        val decorated = new DenseVectorDecorator(vector)
+        val transpose = decorated.t
+        assert(transpose === vector.t)
+    }
+
 }

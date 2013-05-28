@@ -109,4 +109,14 @@ class DenseVectorDecorator(var vector: DenseVector[Double]) {
         val zeros = this.countOf(0.0)
         vector.length - zeros
     }
+
+    def substractFrom(scalar:Double):DenseVector[Double] = {
+        var output = BreezeBuilder zeroVector vector.length
+        for (i <- 0 to vector.length-1){
+            output(i) = scalar - vector(i)
+        }
+        output
+    }
+
+    def t: DenseMatrix[Double] = vector.t
 }

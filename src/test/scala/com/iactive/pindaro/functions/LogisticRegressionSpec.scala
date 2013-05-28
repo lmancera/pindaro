@@ -34,17 +34,19 @@ class LogisticRegressionSpec extends FlatSpec {
         val y = DenseVector.zeros[Double](5)
         val regressor = new LogisticRegression(X,y)
         val theta = DenseVector.zeros[Double](3)
-        def eval = regressor.eval(theta)
-		assert(eval === 0)
+        val eval = regressor.eval(theta)
+		assert(eval-0.693 < 0.001)
 	}
 
-    it should "grad is 0" in {
+    it should "grad is 0 at 0" in {
         val X = DenseMatrix.zeros[Double](5,3)
         val y = DenseVector.zeros[Double](5)
         val regressor = new LogisticRegression(X,y)
         val theta = DenseVector.zeros[Double](3)
-        def grad = regressor.grad(theta)
-        assert(grad === theta)
+        val grad = regressor.grad(theta)
+        assert(grad(0) === 0.0)
+        assert(grad(1) === 0.0)
+        assert(grad(2) === 0.0)
     }
 
 }

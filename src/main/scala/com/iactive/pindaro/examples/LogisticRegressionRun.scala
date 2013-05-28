@@ -59,11 +59,15 @@ object LogisticRegressionRun extends ParseTrainingDataFromFile
         println("\t Init theta: (" + theta(0) + ", " + theta(1) + ", " + theta(2) + ")")
 
         println("Computing initial cost...")
-        val logisticRegressor = new LogisticRegression(X,y)
+        val logisticRegressor = new LogisticRegression(X1,y)
         var cost = logisticRegressor.eval(theta)
         var grad = logisticRegressor.grad(theta)
-        //[cost, grad] = costFunction(initial_theta, X, y); for logistic regression!!
+        println("\t Initial cost is: " + cost)
+        println("\t Initial grad is: " + grad)
 
+        println("Running Learning Algorithm...")
+        // TODO
+        
     }
 
 }
