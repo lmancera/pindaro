@@ -1,4 +1,4 @@
-package com.iactive.pindaro.functions
+package com.iactive.pindaro
 
 /*
  Copyright 2013 IActive IT
@@ -20,19 +20,18 @@ import breeze.linalg._
 import breeze.numerics._
 
 /**
+ *
  * @author lmancera
  */
- object Sigmoid {
+package object math {
 
- 	def applyToScalar(x:Double): Double = {
- 		1.0 / (1.0 + exp(-x))
- 	}
+	def sigmoidScalar(x: Double) = 1.0 / (1.0 + exp(-x))
 
- 	def applyToVector(v:DenseVector[Double]): DenseVector[Double] = {
- 		exp(-v) mapValues {x => 1 / (1 + x) }
- 	}
- 	
- 	def applyToMatrix(A:DenseMatrix[Double]): DenseMatrix[Double] = {
- 		exp(-A) mapValues {x => 1 / (1 + x) }
- 	}
+	def sigmoidVector(v:DenseVector[Double]): DenseVector[Double] = 
+    	exp(-v) mapValues {x => 1 / (1 + x) }
+
+	def sigmoidMatrix(A:DenseMatrix[Double]): DenseMatrix[Double] = 
+		exp(-A) mapValues {x => 1 / (1 + x) }
+  
 }
+

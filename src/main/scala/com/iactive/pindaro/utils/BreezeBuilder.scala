@@ -27,8 +27,12 @@ object BreezeBuilder {
 
    def oneVector(n:Int) = DenseVector.ones[Double](n)
 
+   def randVector(n:Int) = DenseVector.rand(n)
+
    def zeroMatrix(rows:Int, cols:Int) = DenseMatrix.zeros[Double](rows,cols)
 
    def oneMatrix(rows:Int, cols:Int) = DenseMatrix.ones[Double](rows,cols)
+
+   def randMatrix(rows:Int, cols:Int) = DenseMatrix.rand(rows,cols)
 
 }

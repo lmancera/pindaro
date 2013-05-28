@@ -1,4 +1,4 @@
-package com.iactive.pindaro.optimize
+package com.iactive.pindaro.functions
 
 /*
  Copyright 2013 IActive IT
@@ -19,20 +19,28 @@ package com.iactive.pindaro.optimize
 import breeze.linalg._
 import breeze.numerics._
 
-import com.iactive.pindaro.functions.LinearRegression
 import com.iactive.pindaro.utils._
 
 /**
  * @author lmancera
  */
-// TODO: Include options to have different theta initialization strategies
-case class GradientDescent(X:DenseMatrix[Double], l:DenseVector[Double], initTheta:DenseVector[Double], lambda:Double, alpha:Double, iterations: Integer){
 
- 	def execute: DenseMatrix[Double] = {
+class LogisticRegression(X:DenseMatrix[Double], y:DenseVector[Double]){
+
+	def eval(theta:DenseVector[Double]): Double = {
+		0.0
+	}
+
+	def grad(theta:DenseVector[Double]): DenseVector[Double] = {
+		BreezeBuilder zeroVector (theta.length)
+	}
+}
+
+/* 	def execute: DenseMatrix[Double] = {
  		var theta = initTheta
  		for (i <- 1 to iterations){
- 			val linearRegressor = new LinearRegression(X,l)
- 			theta -= linearRegressor.grad(theta,lambda) * alpha
+ 			val f = LrCostFunction(X,l,theta,lambda)
+ 			theta += f.grad * alpha
  		}
  		var output = DenseMatrix.zeros[Double](1,theta.length)
  		for (j <- 0 to theta.length-1) output(0,j) = theta(j)
@@ -63,4 +71,4 @@ case class  GradientDescentNoReg(X:DenseMatrix[Double], y:DenseVector[Double], i
 		1.toDouble/(2*m)*sum((decoratedxtheta - decoratedy)^2)
 	}
 
-}
+}*/

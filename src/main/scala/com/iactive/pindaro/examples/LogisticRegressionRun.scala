@@ -17,6 +17,7 @@ package com.iactive.pindaro.examples
 */
 import breeze.linalg._
 import breeze.numerics._
+import breeze.plot._
 
 import com.iactive.pindaro.classification._
 import com.iactive.pindaro.optimize._
@@ -58,6 +59,9 @@ object LogisticRegressionRun extends ParseTrainingDataFromFile
         println("\t Init theta: (" + theta(0) + ", " + theta(1) + ", " + theta(2) + ")")
 
         println("Computing initial cost...")
+        val logisticRegressor = new LogisticRegression(X,y)
+        var cost = logisticRegressor.eval(theta)
+        var grad = logisticRegressor.grad(theta)
         //[cost, grad] = costFunction(initial_theta, X, y); for logistic regression!!
 
     }

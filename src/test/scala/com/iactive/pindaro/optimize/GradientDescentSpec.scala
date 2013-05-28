@@ -21,7 +21,7 @@ import org.scalatest._
 
 import breeze.linalg._
 
-import com.iactive.pindaro.functions.LrCostFunction
+import com.iactive.pindaro.functions.LinearRegression
 import com.iactive.pindaro.utils._
 
 /**
@@ -29,33 +29,40 @@ import com.iactive.pindaro.utils._
  */
 class GradientDescentSpec extends FlatSpec {
 	"GradientDescent" should "decrease cost at each iteration" in {
-        val m = 10
-        val n = 5
-        val X = DenseMatrix.rand(m,n)
-        val l = DenseVector.zeros[Double](m)
+        val m = 5
+        val n = 3
+        val X = BreezeBuilder zeroMatrix (m,n)
+        X(0,1) = 5
+        X(0,2) = 6
+        X(1,1) = 4
+        X(1,2) = 5
+        X(2,1) = 6
+        X(2,2) = 4
+        X(3,1) = 28
+        X(3,2) = 27
+        X(4,1) = 33
+        X(4,2) = 30
+        X(0,0) = 1
+        X(1,0) = 1
+        X(2,0) = 1
+        X(3,0) = 1
+        X(4,0) = 1
+        val l = BreezeBuilder zeroVector m
         l(0) = 1.0
-        l(5) = 1.0
-        l(9) = 1.0
-        val initTheta = DenseVector.zeros[Double](n)
+        l(1) = 1.0
+        l(2) = 1.0
+        val initTheta = BreezeBuilder zeroVector n
         val lambda = 0.1
-        val alpha = 0.1
-        var lastEval = 0.0
+        val alpha = 0.001
+        val linearRegressor = new LinearRegression(X,l)
+        var lastEval = linearRegressor eval (initTheta, lambda)
         for (iterations <- 1 to 100){
             val theta = GradientDescent(X,l,initTheta,lambda,alpha,iterations).execute
-            val f = LrCostFunction(X,l,DenseMatrixDecorator(theta).flatten, lambda)
-            if (iterations == 1) lastEval = f.eval
-            else {
-                val newEval = f.eval
-                // FIXME: It is giving neg evals of cost function
-                //assert(newEval < lastEval, newEval + " - " + lastEval )
-                lastEval = newEval
-            }
+            val flatTheta = DenseMatrixDecorator(theta).flatten
+            val newEval = linearRegressor eval (flatTheta, lambda)
+            assert(newEval < lastEval, newEval + " - " + lastEval )
+            lastEval = newEval            
         }
-        assert(true == true)
-    }
-
-    it should "minimize a toy example" in {
-        assert(true == true)
     }
 
     "GradientDescentNoReg" should "foo test: this is tested in LinearRegressionRunSpec" in {

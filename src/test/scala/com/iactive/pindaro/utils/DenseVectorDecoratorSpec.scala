@@ -110,4 +110,43 @@ class DenseVectorDecoratorSpec extends FlatSpec {
         assert (normalized(1) - 0.70710 < 0.0001)
     }
 
+    it should "count how many like some scalar" in {
+        val vector = BreezeBuilder zeroVector (10)
+        val decorated = new DenseVectorDecorator(vector)
+        assert(decorated.countOf(0.0) === 10)
+        decorated(1) = -1
+        decorated(3) = 2
+        decorated(4) = 2
+        assert(decorated.countOf(0.0) === 7)
+        assert(decorated.countOf(-1.0) === 1)
+        assert(decorated.countOf(2.0) === 2)
+    }
+
+    it should "calculate l0 norm" in {
+        val vector = BreezeBuilder zeroVector (10)
+        val decorated = new DenseVectorDecorator(vector)
+        assert(decorated.l0norm === 0)
+        decorated(1) = 1
+        decorated(3) = 2
+        decorated(4) = -1
+        assert(decorated.l0norm === 3)
+    }
+
+    it should "slice a vector" in {
+        val vector = BreezeBuilder zeroVector 10
+        val decorated = new DenseVectorDecorator(vector)
+        decorated(0) = 2
+        decorated(1) = 1
+        decorated(3) = 2
+        decorated(4) = -1
+        decorated(6) = 1
+        decorated(8) = 2
+        assert(decorated.countOf(0.0) == 4)
+        assert(vector.length - decorated.countOf(0.0) == 6)
+        assert(decorated.slice(-1.0) === DenseVector(2,1,0,2,0,1,0,2,0))
+        assert(decorated.slice(0.0) === DenseVector(2,1,2,-1,1,2))
+        assert(decorated.slice(1.0) === DenseVector(2,0,2,-1,0,0,2,0))
+        assert(decorated.slice(2.0) === DenseVector(1,0,-1,0,1,0,0))
+    }
+
 }

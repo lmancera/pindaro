@@ -21,59 +21,61 @@ import org.scalatest._
 
 import breeze.linalg._
 
+import com.iactive.pindaro.math._
+
 /**
  * @author lmancera
  */
-class SigmoidSpec extends FlatSpec {
-	"Sigmoid" should "return 0.5 when applied to a 0" in {
-		assert((Sigmoid applyToScalar 0) === 0.5)
+class packageSpec extends FlatSpec {
+	"package" should "return 0.5 when applied to a 0" in {
+		assert(sigmoidScalar(0.0) === 0.5)
 	}
 
 	it should "return positive and > 0.5 when applied to a positive number" in {
-		assert((Sigmoid applyToScalar 1) > 0)
-		assert((Sigmoid applyToScalar 1) > 0.5)
+		assert(sigmoidScalar(1) > 0)
+		assert(sigmoidScalar(1) > 0.5)
 	}
 
 	it should "return postive and < 0.5 when applied to a negative number" in {
-		assert((Sigmoid applyToScalar -1) > 0)
-		assert((Sigmoid applyToScalar -1) < 0.5)
+		assert(sigmoidScalar(-1) > 0)
+		assert(sigmoidScalar(-1) < 0.5)
 	}
 
 	it should "return 1 when applied to a very large number" in {
-		assert((Sigmoid applyToScalar 100) === 1)
+		assert(sigmoidScalar(100) === 1)
 	}
 
 	it should "return 0 when applied to a very large negative number" in {
-		assert((Sigmoid applyToScalar -100) < 1E-10)
+		assert(sigmoidScalar(-100) < 1E-10)
 	}
 
     it should "return .5 vector when applied to a zero vector" in {
-    	assert((Sigmoid applyToVector DenseVector.zeros[Double](5)) == DenseVector(.5,.5,.5,.5,.5))
+    	assert(sigmoidVector(DenseVector.zeros[Double](5)) == DenseVector(.5,.5,.5,.5,.5))
     }
     
 	it should "return .5 matrix when applied to a zero matrix" in {
-    	assert((Sigmoid applyToMatrix DenseMatrix.zeros[Double](2,2)) == DenseMatrix((.5,.5),(.5,.5)))
+    	assert(sigmoidMatrix(DenseMatrix.zeros[Double](2,2)) == DenseMatrix((.5,.5),(.5,.5)))
     }
 
     it should "return positive and > 0.5 when applied to positive vector elements" in {
-    	val v = Sigmoid applyToVector DenseVector.ones[Double](5)
+    	val v = sigmoidVector(DenseVector.ones[Double](5))
     	v foreach { x => assert(x > 0)}
     	v foreach { x => assert(x > 0.5)}
     }
 
     it should "return positive and < 0.5 when applied to negative vector elements" in {
-    	var v = Sigmoid applyToVector -DenseVector.ones[Double](5)
+    	var v = sigmoidVector(-DenseVector.ones[Double](5))
     	v foreach { x => assert(x > 0)}
     	v foreach { x => assert(x < 0.5)}
     }
 
     it should "return 1 when applied to large positive vector elements" in {
-    	var v = Sigmoid applyToVector DenseVector(100,200,300)
+    	var v = sigmoidVector(DenseVector(100,200,300))
     	v foreach { x => assert(x === 1)}
     }
 
     it should "return 0 when applied to large negative vector elements" in {
-    	var v = Sigmoid applyToVector DenseVector(-100,-200,-300)
+    	var v = sigmoidVector(DenseVector(-100,-200,-300))
     	v foreach { x => assert(x < 1E-10)}
     }
 

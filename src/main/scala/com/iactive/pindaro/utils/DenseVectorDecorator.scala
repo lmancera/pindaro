@@ -82,4 +82,31 @@ class DenseVectorDecorator(var vector: DenseVector[Double]) {
     def normalize: DenseVectorDecorator = {
         new DenseVectorDecorator((vector - this.mean)/this.stdv)
     }
+
+    def slice(scalar:Double): DenseVector[Double] = {
+        val howManyLeft = vector.length - this.countOf(scalar)
+        if (howManyLeft == vector.length) return vector
+        var output = BreezeBuilder zeroVector howManyLeft
+        var index = 0
+        vector foreach {element =>
+            if (element != scalar){
+                output(index) = element
+                index += 1
+            }
+        }
+        output
+    }
+
+    def countOf(scalar: Double): Int = {
+        var found = 0
+        vector foreach {element => 
+            if (element == scalar) found += 1
+        }
+        found
+    }
+
+    def l0norm: Int = {
+        val zeros = this.countOf(0.0)
+        vector.length - zeros
+    }
 }
