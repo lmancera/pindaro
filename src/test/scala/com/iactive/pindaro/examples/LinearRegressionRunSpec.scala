@@ -31,12 +31,12 @@ class LinearRegressionRunSpec extends FlatSpec {
 
     "LinearRegressionRun" should "perform simple linear regression" in {
         val data = LinearRegressionRun parseData
-        var x = LinearRegressionRun getSampleData (data)
+        var x = LinearRegressionRun getVectorSampleData (data,0)
         val y = LinearRegressionRun getTrainResult (data)
         val numSamples = x.length
         assert(numSamples === y.length)
 
-        val X = LinearRegressionRun addColumnOfOnes(x,numSamples)
+        val X = LinearRegressionRun addColumnOfOnesToVector(x,numSamples)
         assert(X.rows === numSamples)
         assert(X.cols === 2)
         assert(X(0,0) === 1.0)

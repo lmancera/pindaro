@@ -65,7 +65,7 @@ class DenseVectorDecoratorSpec extends FlatSpec {
 
     it should "perform product by scalar" in {
         val n = 2
-        val ones = new DenseVectorDecorator(BreezeBuilder oneVector n)
+        val ones = BreezeBuilder oneVector n
         val twos = ones * 2.0
         for (i <- 0 to twos.length-1)
              assert(twos(i) === 2.0)
@@ -73,10 +73,19 @@ class DenseVectorDecoratorSpec extends FlatSpec {
 
     it should "perform addition to scalar" in {
         val n = 2
-        val ones = new DenseVectorDecorator(BreezeBuilder oneVector n)
+        val ones = BreezeBuilder oneVector n
         val threes = ones + 2.0
         for (i <- 0 to threes.length-1)
             assert(threes(i) === 3.0)
+    }
+
+    it should "power a vector" in {
+        val n = 2
+        val ones = BreezeBuilder oneVector n
+        val twos = ones * 2.0
+        val fours = new DenseVectorDecorator(twos)^2.0
+        for (i <- 0 to fours.length-1)
+            assert(fours(i) === 4.0)
     }
 
     it should "perform difference between vectors" in {
@@ -85,6 +94,20 @@ class DenseVectorDecoratorSpec extends FlatSpec {
         val v3 = (v1 - v2).get
         assert(v3(0) === -3.0)
         assert(v3(1) === 3.0)
+    }
+
+    it should "calculate vector euclidean norm" in {
+        val v1 = new DenseVectorDecorator(DenseVector(0.25,0.25,0.25,0.25))
+        assert (v1.norm === 0.5)
+        val v2 = new DenseVectorDecorator(DenseVector(1,1,1,1))
+        assert (v2.norm === 2)
+    }
+
+    it should "perform feature normalization" in {
+        val v1 = new DenseVectorDecorator(DenseVector(1,2))
+        val normalized = v1.normalize
+        assert (normalized(0) + 0.70710 < 0.0001)
+        assert (normalized(1) - 0.70710 < 0.0001)
     }
 
 }

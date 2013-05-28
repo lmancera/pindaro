@@ -74,7 +74,7 @@ class DenseMatrixDecoratorSpec extends FlatSpec {
     it should "perform product by scalar" in {
         val m = 4
         val n = 2
-        val ones = new DenseMatrixDecorator(BreezeBuilder oneMatrix (m,n))
+        val ones = BreezeBuilder oneMatrix (m,n)
         val twos = ones * 2.0
         for (i <- 0 to twos.rows-1)
             for (j <- 0 to twos.cols-1)
@@ -84,11 +84,22 @@ class DenseMatrixDecoratorSpec extends FlatSpec {
     it should "perform addition to scalar" in {
         val m = 4
         val n = 2
-        val ones = new DenseMatrixDecorator(BreezeBuilder oneMatrix (m,n))
+        val ones = BreezeBuilder oneMatrix (m,n)
         val threes = ones + 2.0
         for (i <- 0 to threes.rows-1)
             for (j <- 0 to threes.cols-1)
                 assert(threes(i,j) === 3.0)
+    }
+
+    it should "power a vector" in {
+        val m = 3
+        val n = 2
+        val ones = BreezeBuilder oneMatrix (m,n)
+        val twos = ones * 2.0
+        val fours = new DenseMatrixDecorator(twos)^2.0
+        for (i <- 0 to fours.rows-1)
+            for (j <-0 to fours.cols-1)
+                assert(fours(i,j) === 4.0)
     }
 
     it should "perform difference between matrices" in {
@@ -99,6 +110,34 @@ class DenseMatrixDecoratorSpec extends FlatSpec {
         assert(v3(0,1) === 3.0, "position: (0,1): " + v1(0,1) + " - " + v2(0,1))
         assert(v3(1,0) === -1.0, "position: (1,0): " + v1(1,0) + " - " + v2(1,0))
         assert(v3(1,1) === 1.0, "position: (1,1): " + v1(1,1) + " - " + v2(1,1))
+    }
+
+    it should "calculate the mean of a matrix" in {
+        val v1 = new DenseMatrixDecorator(DenseMatrix((1.0,5.0),(2.0,7.0)))
+        assert (v1.mean === DenseVector(1.5,6.0))
+    }
+
+    it should "calculate the standard deviation of a matrix" in {
+        val v1 = new DenseMatrixDecorator(DenseMatrix((1.0,5.0),(2.0,7.0)))
+        assert (abs(v1.stdv(0) - 0.70711) < 0.0001)
+        assert (abs(v1.stdv(1) - 1.41412) < 0.0001)
+    }
+
+    it should "normalize by columns" in {
+        val normalized = new DenseMatrixDecorator(DenseMatrix((1.0,5.0),(2.0,7.0))).normalize
+        assert (normalized(0,0) < 0.0, normalized(0,0) + "- (0,0) < 0")
+        assert (abs(abs(normalized(0,0)) - 0.70711) < 0.0001, normalized(0,0) + "- (0,0)")
+        assert (normalized(1,0) > 0.0, normalized(1,0) + "- (1,0) > 0")
+        assert (abs(abs(normalized(0,1)) - 0.70711) < 0.0001, normalized(1,0) + "- (0,1)")
+        assert (normalized(0,1) < 0.0, normalized(0,1) + "- (0,1) < 0")
+        assert (abs(abs(normalized(1,0)) - 0.70711) < 0.0001, normalized(0,1) + "- (1,0)")
+        assert (normalized(1,1) > 0.0, normalized(1,1) + "- (1,1) > 0")
+        assert (abs(abs(normalized(1,1)) - 0.70711) < 0.0001, normalized(1,1) + "- (1,1)")
+        for (j <- 0 to normalized.cols-1){
+            val col = normalized(::,j).toDenseVector
+            val norm = new DenseVectorDecorator(col).norm
+            assert(norm - 1 < 0.0001, norm)
+        }
     }
 
 }

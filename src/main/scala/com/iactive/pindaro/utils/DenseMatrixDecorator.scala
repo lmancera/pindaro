@@ -59,6 +59,8 @@ case class DenseMatrixDecorator(var matrix: DenseMatrix[Double]) {
         DenseVector(matrix.copy.data)
     }
 
+    def ^(s:Double) = matrix map {x => scala.math.pow(x,s)}
+
     def -(otherMatrix:DenseMatrixDecorator):DenseMatrixDecorator = {
         var vector = new DenseVectorDecorator(flatten)
         var otherVector = new DenseVectorDecorator(otherMatrix.flatten)
@@ -66,11 +68,30 @@ case class DenseMatrixDecorator(var matrix: DenseMatrix[Double]) {
         new DenseMatrixDecorator(output.reshape(matrix.rows,matrix.cols))
     }
 
-    def ^(s:Double) = matrix map {x => scala.math.pow(x,s)}
+    def mean: DenseVector[Double] = {
+        var meanv = BreezeBuilder zeroVector (matrix.cols)
+        for (j <- 0 to matrix.cols-1)
+            meanv(j) = (new DenseVectorDecorator(matrix(::,j).toDenseVector)).mean
+        meanv
+    }
 
-    def *(s:Double) = matrix map {x => x * s}
+    def stdv: DenseVector[Double] = {
+        var sigmav = BreezeBuilder zeroVector (matrix.cols)
+        for (j <- 0 to matrix.cols-1){
+            sigmav(j) = (new DenseVectorDecorator(matrix(::,j).toDenseVector)).stdv
+        }
+        sigmav
+    }
 
-    def +(s:Double) = matrix map {x => x + s}
+    def normalize: DenseMatrix[Double] = {
+        var normalized = BreezeBuilder zeroMatrix (matrix.rows, matrix.cols)
+        for (j <- 0 to matrix.cols-1){
+            val normcol = (new DenseVectorDecorator(matrix(::,j).toDenseVector)).normalize
+            for (i <- 0 to matrix.rows-1)
+                normalized(i,j) = normcol(i)
+        }        
+        normalized
+    }
 
 }
 

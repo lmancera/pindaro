@@ -67,9 +67,19 @@ class DenseVectorDecorator(var vector: DenseVector[Double]) {
 
     def ^(s:Double) = vector map {x => scala.math.pow(x,s)}
 
-    def *(s:Double) = vector map {x => x * s}
+    def mean = {
+        sum(vector)/vector.length
+    }
 
-    def +(s:Double) = vector map {x => x + s}
+    def stdv = {
+        scala.math.sqrt(sum(new DenseVectorDecorator(vector - this.mean)^2)/(vector.length-1))
+    }
 
+    def norm = {
+        sqrt(sum(vector.t*vector))
+    }
 
+    def normalize: DenseVectorDecorator = {
+        new DenseVectorDecorator((vector - this.mean)/this.stdv)
+    }
 }

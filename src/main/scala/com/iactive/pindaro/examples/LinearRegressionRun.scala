@@ -18,8 +18,6 @@ package com.iactive.pindaro.examples
 import breeze.linalg._
 import breeze.numerics._
 
-import org.slf4j.LoggerFactory
-
 import com.iactive.pindaro.classification._
 import com.iactive.pindaro.optimize._
 import com.iactive.pindaro.functions._
@@ -30,29 +28,17 @@ import com.iactive.pindaro.utils._
  * @author lmancera
  */
  // TODO: Use log
-object LinearRegressionRun {
-    private val log = LoggerFactory.getLogger(this.getClass)
-
-    private val separator = ','
+object LinearRegressionRun extends ParseTrainingDataFromFile 
+                                with DatasetModifiable 
+                                with Executable {
     
-    private val trainingSetDataFilePath = "assets/data/LinearRegression.txt"
+    override val trainingSetDataFilePath = "assets/data/LinearRegression.txt"
 
-    def parseData = DataFileParser(trainingSetDataFilePath,separator).toDenseMatrix
-
-    def getSampleData(data:DenseMatrix[Double]) = data(::,0 until 1).toDenseVector
-
-    def getTrainResult(data:DenseMatrix[Double]) = data(::,data.cols-1).toDenseVector
-
-    def addColumnOfOnes(x:DenseVector[Double],rows:Int) = {
-        val decoratedx = new DenseVectorDecorator(x)
-        DenseMatrix.horzcat(DenseMatrix.ones[Double](rows,1),decoratedx reshape (rows,1))
-    }
-
-    def main(args: Array[String]) {
+    override def main(args: Array[String]) {
 
         println("Loading Data...")
         val data = parseData
-        var x = getSampleData(data)
+        var x = getVectorSampleData(data,0)
         val y = getTrainResult(data)
         val numSamples = x.length
         println("\t Size of x: " + numSamples)
@@ -63,7 +49,7 @@ object LinearRegressionRun {
         println("\t Last element of y: " + y(numSamples-1))
 
         println("Initializing...")
-        val X = addColumnOfOnes(x,numSamples)
+        val X = addColumnOfOnesToVector(x,numSamples)
         println("\t Size of X: " + X.rows + " rows, " + X.cols + " cols")
         println("\t First element of X: (" + X(0,0) + ", " + X(0,1) + ")")
         var theta = BreezeBuilder zeroVector X.cols

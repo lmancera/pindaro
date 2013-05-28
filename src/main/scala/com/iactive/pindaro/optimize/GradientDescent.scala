@@ -17,6 +17,7 @@ package com.iactive.pindaro.optimize
 */
 
 import breeze.linalg._
+import breeze.numerics._
 
 import com.iactive.pindaro.functions.LrCostFunction
 import com.iactive.pindaro.utils._
@@ -40,21 +41,19 @@ case class GradientDescent(X:DenseMatrix[Double], l:DenseVector[Double], initThe
 
 }
 
-case class  GradientDescentNoReg(X:DenseMatrix[Double], y:DenseVector[Double], initTheta:DenseVector[Double]=DenseVector.zeros[Double](1)){
-
-	val iterations = 1500
-	val alpha = 0.01
+case class  GradientDescentNoReg(X:DenseMatrix[Double], y:DenseVector[Double], initTheta:DenseVector[Double]=DenseVector.zeros[Double](1), alpha:Double=0.01, iterations:Int=1500){
 
 	def execute: DenseVector[Double] = {
-		val iterations = 1500
-		val alpha = 0.01
-		val initTheta = DenseVector.zeros[Double](2)
 		var theta = initTheta
 		val m = y.length
 		for (i <- 1 to iterations){
 			theta -= ((X*theta-y).t*X).t.toDenseVector*(alpha/m)
 		}
 		theta
+	}
+
+	def normalEquations: DenseVector[Double] = {
+		pinv(X.t*X)*X.t*y
 	}
 
 	def computeCost(theta:DenseVector[Double]): Double = {
@@ -65,24 +64,3 @@ case class  GradientDescentNoReg(X:DenseMatrix[Double], y:DenseVector[Double], i
 	}
 
 }
-
-
-/*for iter = 1:num_iters
-
-    % ====================== YOUR CODE HERE ======================
-    % Instructions: Perform a single gradient step on the parameter vector
-    %               theta. 
-    %
-    % Hint: While debugging, it can be useful to print out the values
-    %       of the cost function (computeCost) and gradient here.
-    %
-
-    theta = theta-(alpha/m)*((X*theta-y)'*X)';
-
-
-    % ============================================================
-
-    % Save the cost J in every iteration    
-    J_history(iter) = computeCost(X, y, theta);
-
-end 	*/
