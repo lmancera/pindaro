@@ -29,17 +29,17 @@ import com.iactive.pindaro.math._
 /**
  * @author lmancera
  */
-object LogisticRegressionRun extends ParseTrainingDataFromFile 
+object RegularizedLogisticRegressionRun extends ParseTrainingDataFromFile 
                                 with DatasetCalculations  
                                 with Executable {
 
-    override val trainingSetDataFilePath = "assets/data/LogisticRegression.txt"
+    override val trainingSetDataFilePath = "assets/data/RegularizedLogisticRegression.txt"
 
     override def main(args: Array[String]) {
 
         println("Loading Data...")
         val data = parseData
-        var X = getSampleData(data,2)
+        val X = getSampleData(data,2)
         val y = getTrainResult(data)
         val numSamples = X.rows
         println("\t Size of X: " + numSamples)
@@ -49,23 +49,24 @@ object LogisticRegressionRun extends ParseTrainingDataFromFile
         println("\t Last element of X: " + X(numSamples-1,1))
         println("\t Last element of y: " + y(numSamples-1))
 
-        println("Initializing...")
-        println("\t Setup the data matrix")
-        val X1 = addColumnOfOnes(X,numSamples)
-        println("\t Size of X1: " + X1.rows + " rows, " + X1.cols + " cols")
-        println("\t First element of X1: (" + X1(0,0) + ", " + X1(0,1) + ", " + X1(0,2) + ")")
-        var theta = BreezeBuilder zeroVector X1.cols
-        println("\t Initial theta: (" + theta(0) + ", " + theta(1) + ", " + theta(2) + ")")
+        println("Adding more features...")
+        val Xfull = mapFeature(X(::,0).toDenseVector, X(::,1).toDenseVector)
+        println("\t Dimension of Xfull: " + Xfull.rows + " rows, " + Xfull.cols + " cols")
 
+        println("Initializing...")
+        var theta = BreezeBuilder zeroVector Xfull.cols
+        println("\t Initial theta: (" + theta(0) + ", " + theta(1) + ", " + theta(2) + ")")
+        val lambda = 10.0
+        println("\t Lambda: " + lambda)
         println("Computing initial cost...")
-        val logisticRegressor = new LogisticRegression(X1,y)
+        val logisticRegressor = new RegularizedLogisticRegression(Xfull,y,lambda)
         var cost = logisticRegressor.eval(theta)
         var grad = logisticRegressor.grad(theta)
         println("\t Initial cost is: " + cost)
         println("\t Initial grad is: " + grad)
 
         println("Running Learning Algorithm...")
-        val limmemorybfgs = new LimMemoryBFGS[LogisticRegression](400,3)(logisticRegressor)
+        val limmemorybfgs = new LimMemoryBFGS[RegularizedLogisticRegression](400,3)(logisticRegressor)
         theta = limmemorybfgs.minimize(theta)
         println("\t Theta at convergence: " + theta)
         cost = logisticRegressor.eval(theta)
@@ -74,11 +75,7 @@ object LogisticRegressionRun extends ParseTrainingDataFromFile
         println("\t Gradient at theta: " + grad)
 
         println("Making predictions...")
-        val test = DenseVector(1., 45., 85.)
-        val prob = logisticRegressor.predict(test.t,theta)
-        println("\t Predicted admission prob for a student with scores 45 and 85: " + prob)
-        
-        val predictedy = logisticRegressor.predict(X1,theta)
+        val predictedy = logisticRegressor.predict(Xfull,theta)
         println("\t Train Accuracy: " + accuracy(y,predictedy))
 
     }

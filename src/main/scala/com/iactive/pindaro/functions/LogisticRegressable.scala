@@ -21,26 +21,33 @@ import breeze.numerics._
 import breeze.optimize._
 
 import com.iactive.pindaro.utils._
+import com.iactive.pindaro.math._
+
 
 /**
  * @author lmancera
  */
 
-class LogisticRegression(X:DenseMatrix[Double], y:DenseVector[Double]) 
-	extends LogisticRegressable {
+trait LogisticRegressable {
 
-	private val m = y.length
-
-	private val decoratedy = new DenseVectorDecorator(y)
-
-	override def eval(theta:DenseVector[Double]): Double = {
-		val decoratedhtheta = new DenseVectorDecorator(h(X,theta))
-		sum(-y.t*log(h(X,theta)) - (decoratedy.substractFrom(1).t*log(decoratedhtheta.substractFrom(1))))/m
+	def h(X: DenseMatrix[Double], theta:DenseVector[Double]): DenseVector[Double] = {
+		sigmoid(X*theta)
 	}
 
-	override def grad(theta:DenseVector[Double]): DenseVector[Double] = {
-		val decoratedhtheta = new DenseVectorDecorator(h(X,theta))
-		((decoratedhtheta-decoratedy).t*X).t.toDenseVector * (1./m)
+	def eval(theta:DenseVector[Double]): Double
+
+	def grad(theta:DenseVector[Double]): DenseVector[Double]
+
+	def predict(X: DenseMatrix[Double], theta:DenseVector[Double]): DenseVector[Double] = {
+        var predictedoutput = BreezeBuilder zeroVector X.rows
+        var index = 0
+        h(X,theta) foreach { evaluation =>
+            if (evaluation >= 0.5){
+                predictedoutput(index) = 1.0
+            }
+            index += 1
+        }
+		predictedoutput		
 	}
 
 }

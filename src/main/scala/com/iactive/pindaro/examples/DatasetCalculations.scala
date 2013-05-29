@@ -39,6 +39,20 @@ trait DatasetCalculations {
             if (y(i) == predy(i))
                 wellPredicted += 1
         100*wellPredicted./(y.length)
+    }
+
+    def mapFeature(x1:DenseVector[Double],x2:DenseVector[Double]): DenseMatrix[Double] = {
+        val degree = 6
+        var output = BreezeBuilder oneMatrix (x1.length,1)
+        val decoratedx1 = new DenseVectorDecorator(x1)
+        val decoratedx2 = new DenseVectorDecorator(x2)
+        for(i <- 1 to degree){
+            for(j <- 0 to i){
+                val featureCol = (decoratedx1^(i-j)) :* (decoratedx2^j)
+                output = DenseMatrix.horzcat(output,featureCol.t.t)
+            }            
+        }
+        output
     }    
 
 }

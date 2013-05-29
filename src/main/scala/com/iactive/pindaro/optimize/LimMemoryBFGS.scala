@@ -19,12 +19,12 @@ package com.iactive.pindaro.optimize
 import breeze.linalg._
 import breeze.optimize._
 
-import com.iactive.pindaro.functions.LogisticRegression
+import com.iactive.pindaro.functions._
 
 /**
  * @author lmancera
  */
-case class LimMemoryBFGS(regressor: LogisticRegression, iterations: Integer=400, memory:Int=3) {
+class LimMemoryBFGS[A](iterations: Integer=400, memory:Int=3)(implicit regressor: LogisticRegressable) {
 
     private val diff = new DiffFunction[DenseVector[Double]] {
         def calculate(theta: DenseVector[Double]) = {

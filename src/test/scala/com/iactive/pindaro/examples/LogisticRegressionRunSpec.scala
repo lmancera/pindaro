@@ -53,7 +53,8 @@ class LogisticRegressionRunSpec extends FlatSpec {
         assert(cost === 0.693147180559945)
         assert(grad === DenseVector(-0.1, -12.00921658929115, -11.262842205513591))
 
-        theta = LimMemoryBFGS(logisticRegressor,400,3).minimize(theta)
+        val limmemorybfgs = new LimMemoryBFGS[LogisticRegression](400,3)(logisticRegressor)
+        theta = limmemorybfgs.minimize(theta)
         assert(theta === DenseVector(-25.161403375352286, 0.20623229961295794, 0.20147216053313552))
         cost = logisticRegressor.eval(theta)
         grad = logisticRegressor.grad(theta)

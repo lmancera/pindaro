@@ -1,8 +1,9 @@
-Multi-class classification: logistic regression + neural networks - One vs. All logistic regression
+High abstract level Machine Learning library for Scala
 
-One vs. All trains multiple logistic regression classifiers and returns all the classifiers in a matrix
+Algorithms implemented so fas:
+- Linear Regression
+- Logistic Regression
 
-There are examples of the algorithms reading data from files
+This project uses Breeze library (https://github.com/scalanlp/breeze)
 
-Algorithms implemented so far: 
-- Linear regression
+This is work in project. More features and documentation coming soon...
