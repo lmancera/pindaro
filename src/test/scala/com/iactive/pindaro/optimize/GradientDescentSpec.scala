@@ -57,7 +57,7 @@ class GradientDescentSpec extends FlatSpec {
         val linearRegressor = new LinearRegression(X,l)
         var lastEval = linearRegressor eval (initTheta, lambda)
         for (iterations <- 1 to 100){
-            val theta = GradientDescent(X,l,initTheta,lambda,alpha,iterations).execute
+            val theta = GradientDescent(X,l,initTheta,lambda,alpha,iterations).minimize
             val flatTheta = DenseMatrixDecorator(theta).flatten
             val newEval = linearRegressor eval (flatTheta, lambda)
             assert(newEval < lastEval, newEval + " - " + lastEval )

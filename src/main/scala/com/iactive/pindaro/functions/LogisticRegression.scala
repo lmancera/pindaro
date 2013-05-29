@@ -18,8 +18,8 @@ package com.iactive.pindaro.functions
 
 import breeze.linalg._
 import breeze.numerics._
+import breeze.optimize._
 
-import com.iactive.pindaro.math._
 import com.iactive.pindaro.utils._
 
 /**
@@ -28,60 +28,34 @@ import com.iactive.pindaro.utils._
 
 class LogisticRegression(X:DenseMatrix[Double], y:DenseVector[Double]){
 
-	val m = y.length
+	private val m = y.length
 
-	val decoratedy = new DenseVectorDecorator(y)
+	private val decoratedy = new DenseVectorDecorator(y)
 
-	def h(theta:DenseVector[Double]): DenseVector[Double] = {
+	private def h(X: DenseMatrix[Double], theta:DenseVector[Double]): DenseVector[Double] = {
 		sigmoid(X*theta)
 	}
 
 	def eval(theta:DenseVector[Double]): Double = {
-		val decoratedhtheta = new DenseVectorDecorator(h(theta))
-		sum(-y.t*log(h(theta)) - (decoratedy.substractFrom(1).t*log(decoratedhtheta.substractFrom(1))))/m
+		val decoratedhtheta = new DenseVectorDecorator(h(X,theta))
+		sum(-y.t*log(h(X,theta)) - (decoratedy.substractFrom(1).t*log(decoratedhtheta.substractFrom(1))))/m
 	}
 
 	def grad(theta:DenseVector[Double]): DenseVector[Double] = {
-		val decoratedhtheta = new DenseVectorDecorator(h(theta))
+		val decoratedhtheta = new DenseVectorDecorator(h(X,theta))
 		((decoratedhtheta-decoratedy).t*X).t.toDenseVector * (1./m)
-		/*grad = invm*((h_theta-y)'*X)'
-		BreezeBuilder zeroVector (theta.length)*/
 	}
-}
 
-/* 	def execute: DenseMatrix[Double] = {
- 		var theta = initTheta
- 		for (i <- 1 to iterations){
- 			val f = LrCostFunction(X,l,theta,lambda)
- 			theta += f.grad * alpha
- 		}
- 		var output = DenseMatrix.zeros[Double](1,theta.length)
- 		for (j <- 0 to theta.length-1) output(0,j) = theta(j)
- 		output
- 	}
+	def predict(X: DenseMatrix[Double], theta:DenseVector[Double]): DenseVector[Double] = {
+        var predictedoutput = BreezeBuilder zeroVector X.rows
+        var index = 0
+        h(X,theta) foreach { evaluation =>
+            if (evaluation >= 0.5){
+                predictedoutput(index) = 1.0
+            }
+            index += 1
+        }
+		predictedoutput		
+	}
 
 }
-
-case class  GradientDescentNoReg(X:DenseMatrix[Double], y:DenseVector[Double], initTheta:DenseVector[Double]=DenseVector.zeros[Double](1), alpha:Double=0.01, iterations:Int=1500){
-
-	def execute: DenseVector[Double] = {
-		var theta = initTheta
-		val m = y.length
-		for (i <- 1 to iterations){
-			theta -= ((X*theta-y).t*X).t.toDenseVector*(alpha/m)
-		}
-		theta
-	}
-
-	def normalEquations: DenseVector[Double] = {
-		pinv(X.t*X)*X.t*y
-	}
-
-	def computeCost(theta:DenseVector[Double]): Double = {
-		val m = y.length
-		val decoratedxtheta = new DenseVectorDecorator(X*theta)
-		val decoratedy = new DenseVectorDecorator(y)
-		1.toDouble/(2*m)*sum((decoratedxtheta - decoratedy)^2)
-	}
-
-}*/

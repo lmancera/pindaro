@@ -49,7 +49,7 @@ class LinearRegressionRunSpec extends FlatSpec {
         val initCost = GradientDescentNoReg(X, y).computeCost(theta)
         assert(initCost > 0, initCost)
 
-        theta = GradientDescentNoReg(X, y, theta).execute
+        theta = GradientDescentNoReg(X, y, theta).minimize
         val endCost = GradientDescentNoReg(X, y).computeCost(theta)
 		assert(endCost < initCost)
 

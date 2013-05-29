@@ -30,23 +30,33 @@ import scala.util.Random
  */
 class LogisticRegressionSpec extends FlatSpec {
 	"LogisticRegression" should "evaluate 0" in {
-        val X = DenseMatrix.zeros[Double](5,3)
-        val y = DenseVector.zeros[Double](5)
+        val X = BreezeBuilder zeroMatrix (5,3)
+        val y = BreezeBuilder zeroVector 5
+        val theta = BreezeBuilder zeroVector 3
         val regressor = new LogisticRegression(X,y)
-        val theta = DenseVector.zeros[Double](3)
         val eval = regressor.eval(theta)
 		assert(eval-0.693 < 0.001)
 	}
 
     it should "grad is 0 at 0" in {
-        val X = DenseMatrix.zeros[Double](5,3)
-        val y = DenseVector.zeros[Double](5)
+        val X = BreezeBuilder zeroMatrix (5,3)
+        val y = BreezeBuilder zeroVector 5
+        val theta = BreezeBuilder zeroVector 3
         val regressor = new LogisticRegression(X,y)
-        val theta = DenseVector.zeros[Double](3)
         val grad = regressor.grad(theta)
         assert(grad(0) === 0.0)
         assert(grad(1) === 0.0)
         assert(grad(2) === 0.0)
+    }
+
+    it should "make proper predictions" in {
+        val X = DenseMatrix((1.,-1.,-1.),(1.,-2.,-3.),(1.,4.,5.),(1.,6.,7.))
+        val y = DenseVector(0.,0.,1.,1.)
+        val regressor = new LogisticRegression(X,y)
+        val theta = DenseVector(1.,1.,1.)
+        val predictions = regressor.predict(X,theta)
+        for (i <- 0 to y.length-1)
+            assert(y(i) === predictions(i))
     }
 
 }

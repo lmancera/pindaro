@@ -29,7 +29,7 @@ import com.iactive.pindaro.utils._
  */
  // TODO: Use log
 object LinearRegressionMultipleVarRun extends ParseTrainingDataFromFile 
-                                        with DatasetModifiable
+                                        with DatasetCalculations
                                         with Executable {
 
     override val trainingSetDataFilePath = "assets/data/LinearRegressionMultipleVar.txt"
@@ -67,7 +67,7 @@ object LinearRegressionMultipleVarRun extends ParseTrainingDataFromFile
         println("\t Alpha: " + alpha)
         val iterations = 400
         println("\t Num. iterations: " + iterations)
-        theta = GradientDescentNoReg(X1, y, theta, alpha, iterations).execute
+        theta = GradientDescentNoReg(X1, y, theta, alpha, iterations).minimize
         println("\t Final theta: (" + theta(0) + ", " + theta(1) + ", " + theta(2) + ")")
         var cost = GradientDescentNoReg(X1, y).computeCost(theta)
         println("\t Final cost: " + cost)

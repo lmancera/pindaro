@@ -17,19 +17,20 @@ package com.iactive.pindaro.examples
 */
 import breeze.linalg._
 import breeze.numerics._
-import breeze.plot._
+import breeze.optimize._
 
 import com.iactive.pindaro.classification._
 import com.iactive.pindaro.optimize._
 import com.iactive.pindaro.functions._
 import com.iactive.pindaro.parsers._
 import com.iactive.pindaro.utils._
+import com.iactive.pindaro.math._
 
 /**
  * @author lmancera
  */
 object LogisticRegressionRun extends ParseTrainingDataFromFile 
-                                with DatasetModifiable 
+                                with DatasetCalculations  
                                 with Executable {
 
     override val trainingSetDataFilePath = "assets/data/LogisticRegression.txt"
@@ -50,13 +51,11 @@ object LogisticRegressionRun extends ParseTrainingDataFromFile
 
         println("Initializing...")
         println("\t Setup the data matrix")
-        val m = X.rows //// used???
-        val n = X.cols //// used???
         val X1 = addColumnOfOnes(X,numSamples)
         println("\t Size of X1: " + X1.rows + " rows, " + X1.cols + " cols")
         println("\t First element of X1: (" + X1(0,0) + ", " + X1(0,1) + ", " + X1(0,2) + ")")
         var theta = BreezeBuilder zeroVector X1.cols
-        println("\t Init theta: (" + theta(0) + ", " + theta(1) + ", " + theta(2) + ")")
+        println("\t Initial theta: (" + theta(0) + ", " + theta(1) + ", " + theta(2) + ")")
 
         println("Computing initial cost...")
         val logisticRegressor = new LogisticRegression(X1,y)
@@ -66,8 +65,21 @@ object LogisticRegressionRun extends ParseTrainingDataFromFile
         println("\t Initial grad is: " + grad)
 
         println("Running Learning Algorithm...")
-        // TODO
+        theta = LimMemoryBFGS(logisticRegressor,400,3).minimize(theta)
+        println("\t Theta at convergence: " + theta)
+        cost = logisticRegressor.eval(theta)
+        grad = logisticRegressor.grad(theta)
+        println("\t Cost at theta: " + cost)
+        println("\t Gradient at theta: " + grad)
+
+        println("Making predictions...")
+        val test = DenseVector(1., 45., 85.)
+        val prob = logisticRegressor.predict(test.t,theta)
+        println("\t Predicted admission prob for a student with scores 45 and 85: " + prob)
         
+        val predictedy = logisticRegressor.predict(X1,theta)
+        println("\t Train Accuracy: " + accuracy(y,predictedy))
+
     }
 
 }

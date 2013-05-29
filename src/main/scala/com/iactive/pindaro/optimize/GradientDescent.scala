@@ -28,7 +28,7 @@ import com.iactive.pindaro.utils._
 // TODO: Include options to have different theta initialization strategies
 case class GradientDescent(X:DenseMatrix[Double], l:DenseVector[Double], initTheta:DenseVector[Double], lambda:Double, alpha:Double, iterations: Integer){
 
- 	def execute: DenseMatrix[Double] = {
+ 	def minimize: DenseMatrix[Double] = {
  		var theta = initTheta
  		for (i <- 1 to iterations){
  			val linearRegressor = new LinearRegression(X,l)
@@ -43,7 +43,7 @@ case class GradientDescent(X:DenseMatrix[Double], l:DenseVector[Double], initThe
 
 case class  GradientDescentNoReg(X:DenseMatrix[Double], y:DenseVector[Double], initTheta:DenseVector[Double]=DenseVector.zeros[Double](1), alpha:Double=0.01, iterations:Int=1500){
 
-	def execute: DenseVector[Double] = {
+	def minimize: DenseVector[Double] = {
 		var theta = initTheta
 		val m = y.length
 		for (i <- 1 to iterations){

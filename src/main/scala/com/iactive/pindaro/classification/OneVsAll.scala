@@ -46,7 +46,7 @@ import com.iactive.pindaro.utils._
 		for(c <- 0 to numLabels-1){
 			val decoratedy = new DenseVectorDecorator(y)
 			val l = decoratedy === c
-			val theta = GradientDescent(X, l.get, initTheta, lambda, alpha, iterations).execute
+			val theta = GradientDescent(X, l.get, initTheta, lambda, alpha, iterations).minimize
 			if (c==1) allTheta = theta
 			else allTheta = DenseMatrix vertcat (allTheta, theta)
 		}

@@ -56,7 +56,7 @@ class LinearRegressionMultipleVarRunSpec extends FlatSpec {
         val iterations = 400
         val initCost = GradientDescentNoReg(X1, y).computeCost(theta)
         assert(initCost > 0, initCost)
-        theta = GradientDescentNoReg(X1, y, theta, alpha, iterations).execute
+        theta = GradientDescentNoReg(X1, y, theta, alpha, iterations).minimize
         val endCost = GradientDescentNoReg(X1, y).computeCost(theta)
         assert(endCost < initCost)
 
