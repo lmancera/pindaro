@@ -18,39 +18,40 @@ package com.iactive.pindaro.classification
 
 import breeze.linalg._
 
+import com.iactive.pindaro.functions._
 import com.iactive.pindaro.optimize._
 import com.iactive.pindaro.utils._
 
 /**
  * @author lmancera
  */
- // TODO: Include options to have different theta initialization/regularization strategies
  case class OneVsAll(X:DenseMatrix[Double],y:DenseVector[Double],numLabels:Integer){
 
- 	// TODO: uses gradient descent, converto to trainToGradientDescent when more methods added
  	def train: DenseMatrix[Double] = {
- 		// Method params
-        val alpha = 0.1
-        val iterations = 150
-
-        // Regularization params
-        val lambda = 0.1
-
-        // Initial classification params
-   		val initTheta = DenseVector.zeros[Double](X.cols)
-
-        // Perform training
- 		val m = X.rows
+        val iterations = 400
+        val lambda = 1
  		val n = X.cols
- 		var allTheta = DenseMatrix.zeros[Double](1,n)
+ 		val initTheta = BreezeBuilder zeroVector (n)
+ 		var allTheta = BreezeBuilder zeroMatrix (n,numLabels)
+
 		for(c <- 0 to numLabels-1){
 			val decoratedy = new DenseVectorDecorator(y)
-			val l = decoratedy === c
-			val theta = GradientDescent(X, l.get, initTheta, lambda, alpha, iterations).minimize
-			if (c==1) allTheta = theta
-			else allTheta = DenseMatrix vertcat (allTheta, theta)
+			var value = c
+			if (value == 0) value = 10
+			val l = decoratedy === value
+			val logisticRegressor = new RegularizedLogisticRegression(X,l.get,lambda)
+			val limmemorybfgs = new LimMemoryBFGS[RegularizedLogisticRegression](iterations,3)(logisticRegressor)
+			val theta = limmemorybfgs.minimize(initTheta)
+			allTheta = copyRow(allTheta,c,theta)
 		}
 		allTheta
+ 	}
+
+ 	private def copyRow(matrix:DenseMatrix[Double],row:Int,vector:DenseVector[Double]):DenseMatrix[Double] = {
+ 		var output: DenseMatrix[Double] = matrix;
+ 		for (j <- 0 to output.cols-1)
+ 			output(row,j) = vector(j)
+ 		output
  	}
 
  }

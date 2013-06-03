@@ -17,72 +17,62 @@ package com.iactive.pindaro.examples
 */
 import breeze.linalg._
 
-import org.slf4j.LoggerFactory
-
 import com.iactive.pindaro.classification._
 import com.iactive.pindaro.functions._
 import com.iactive.pindaro.parsers._
 import com.iactive.pindaro.utils._
+import com.iactive.pindaro.math._
 
 /**
  * @author lmancera
  */
- // TODO: Use log
-object HandWritingRecognitionRun {
-    private val log = LoggerFactory.getLogger(this.getClass)
+object HandWritingRecognitionRun extends ParseTrainingDataFromFile 
+                                with DatasetCalculations  
+                                with Executable {
 
-    /**
-    * 20x20 input images of handwritten digits
-    * 10 labels, from 1 to 10 (output 10 means 0)
-    */
-    //def main(args: Array[String]) {
-        /*val numLabels = 2
-        val X = DenseMatrix((0.,0.),(0.,1.),(1.,1.),(1.,0.),(0.5,0.25),(10.,10.),(11.,10.),(10.,11.),(11.,11.),(10.5,10.25))
-        val y = DenseVector(0.,0.,0.,0.,0.,1.,1.,1.,1.,1.)
-        val theta = OneVsAll(X,y,numLabels).train
-        var newInput = DenseVector(0.75,0.5)
-        def predicted(v:DenseVector[Double]) = (Sigmoid applyToVector v).argmax
-        println(predicted(theta*newInput))
-        newInput = DenseVector(10.75,10.5)
-        println(predicted(theta*newInput))*/
-
-/*        val numLabels = 10
+    def main(args: Array[String]) {
+        val numLabels = 10
         val separator = ' '
 
         println("Loading Data...")
-
         val trainingSetDataFilePath = "assets/data/HandWrittenDigitsExamples.txt"
         val X = DataFileParser(trainingSetDataFilePath,separator).toDenseMatrix
-        val numSamplesInTrainingSet = X.rows
+        val numSamples = X.rows
         val inputLayerSize = X.cols
-        println("\t Number of Samples in Training Set: " + numSamplesInTrainingSet)
+        println("\t Number of Samples in Training Set: " + numSamples)
         println("\t Length of each Sample (input layer size): " + inputLayerSize)
 
         val supervisedResultsDataFilePath = "assets/data/HandWrittenSupervisedResults.txt"
         val y = DataFileParser(supervisedResultsDataFilePath,separator).toDenseVector
-        println("\t Number of results should be " + numSamplesInTrainingSet + " and it is: " + y.length)
+        println("\t Number of results should be " + numSamples + " and it is: " + y.length)
 
         println("Visualizing Data... (skipped)")
-        BreezeFacade.plotAt(X,1)
+        val matrix = DenseMatrixDecorator(X)
+        matrix.plotAt(100)
+
+        println("Initializing...")
+        println("\t Setup the data matrix")
+        val X1 = addColumnOfOnes(X,numSamples)
+        println("\t Size of X1: " + X1.rows + " rows, " + X1.cols + " cols")
+        println("\t First elements of X1: (" + X1(0,0) + ", " + X1(0,1) + ", " + X1(0,2) + ")")
         
         println("One-vs-All Logistic Regression...")
-
         println("\t Training...")
-        val allTheta = OneVsAll(X,y,numLabels).train
+        val allTheta = OneVsAll(X1,y,numLabels).train
 
         println("\t Showing results...")
-        println("\t \t parameters learned: " + allTheta(0,0 to 4))
+        println("\t \t parameters learned: " + allTheta(0,0 to numLabels-1))
 
         println("Making predictions...")
-        val predictionMatrix = Sigmoid applyToMatrix X*allTheta.t
+        val predictionMatrix = sigmoidMatrix(X1*allTheta)
         var hits = 0
-        for (i <- 0 to numSamplesInTrainingSet-1){
+        for (i <- 0 to numSamples-1){
             val predictionVector = predictionMatrix(i,::).toDenseVector
             if (y(i).toInt == predictionVector.argmax) hits += 1
         }
-        val ratioOfSuccess: Double = 100*hits.toDouble/numSamplesInTrainingSet.toDouble
+        val ratioOfSuccess: Double = 100*hits.toDouble/numSamples.toDouble
         println("\t The ratio of success is: " + ratioOfSuccess + "% having " + hits + " hits")
-*/        
-    //}
+
+    }
 
 }
